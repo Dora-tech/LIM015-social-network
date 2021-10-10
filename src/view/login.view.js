@@ -81,7 +81,7 @@ function logInWithGoogleClick() {
     })
     .catch((error) => {
       /*     Manejar errores aquí. */
-      console.log('error');
+      // console.log('error');
       /*    El correo electrónico de la cuenta del usuario utilizada. */
     });
 }

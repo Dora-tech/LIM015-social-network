@@ -45,8 +45,9 @@ export function viewHome() {
                 </div>
         </div>
       </section>  
-     
+      <div class="posts-container">
       <div id="showPost" class="show-post"> </div>
+      </div>
       `;
   const divElem = document.createElement('div');
   divElem.innerHTML = viewHomen;
@@ -60,54 +61,16 @@ export function initHome() {
     window.location.hash = '#/login';
   });
 }
-/*
-const getCollection = () => db.collection('post').get();
-window.addEventListener('DomContentLoader', async (e) => {
-  const posts = await getCollection();
-  posts.forEach((doc) => {
-    console.log(doc.data());
-  });
-});
- */
-// pintar post
-// const showPost = document.querySelector('#showPost');
-/*
-document.addEventListener('click', (e) => {
-  if (e.target.id === 'btnpost') {
-    const post = document.querySelector('#post');
-    if (post.value.trim().length > 0) {
-      const date = new Date(Date.now());
-      const objPublicacion = {
-        photo: localStorage.getItem('photo'),
-        name: localStorage.getItem('name'),
-        description: post.value,
-        day: date.toLocaleString(),
-        user: localStorage.getItem('uid'),
-        likesUser: [],
-      };
-      publishPost(objPublicacion)
-        .then((resolve) => {
-          console.log(publishPost(objPublicacion)); // eslint-disable-line
-        })
-        .catch((reject) => {
-          console.log(reject); // eslint-disable-line
-        });
-    } else {
-      alert("Por favor, llena el campo"); // eslint-disable-line
-    }
-    post.value = '';
-  }
-});
- */
+
 const db = firebase.firestore();
 // const getPost = () => db.collection('post').get();
 /* const form= document.getElementById('') */
-const onGetPost = (callback) => db.collection('input-timeline').onSnapshot(callback);
+const onGetPost = (callback) => db.collection('posts').onSnapshot(callback);
 
-const deletePost = (id) => db.collection('input-timeline').doc(id).delete();
+const deletePost = (id) => db.collection('posts').doc(id).delete();
 
-const UpdatePost = (descriptionPost,id) => db.collection('input-timeline').doc(id).set({
-  descriptionPost,
+const UpdatePost = (description,id) => db.collection('posts').doc(id).update({
+  description,
 });
 
 document.querySelector('#showPost');
@@ -122,12 +85,30 @@ window.addEventListener('DOMContentLoaded', async (e) => {
       info.id = doc.id;
       // console.log(info);
       document.querySelector('#showPost').innerHTML += `
-    <h3 data-h3id="${info.id}">${info.descriptionPost}</h3>
-    <div id="showbtnEdits" class="show-btnedits" data-test="${info.id}"> </div>
-    <div id="bnts">
-    <button id= "btnDelete" class="btnDelite" data-id="${info.id}">Delete</button>
-    <button id="btnEdit" class="btn-edit" data-myid="${info.id}">Edit</button>
-    </div>
+    
+      <div class='post-body' data-idpost='${info.id}'>
+      <img class="profile-user-img" src=${info.photo}><h3>${info.name}</h3>  <h3>${info.day}</h3>         
+      <div class="description-div">
+        
+            <h3 data-h3id="${info.id}">${info.description}</h3>
+            <div id="showbtnEdits" class="show-btnedits" data-test="${info.id}"> </div>
+            <div id="bnts">
+              <img id= "btnDelete" class="btnDelite" data-id="${info.id}"src='img/close-1.svg'>
+              <img id="btnEdit" class="btn-edit" data-myid="${info.id}" src='img/edit3.svg'>
+            </div>
+            </div>
+
+            <div class="date-likes">
+                 <div class="likes-container">
+                    <img class="like-post" src="img/like1.svg">
+                  <img class="send-post" src='img/send.svg' >
+                 </div>
+                  <div class="likes-counter">
+                  
+                     <span></span><a id="p-likes" class="mostrar-likes" style="cursor:pointer;">0 Likes</a>
+                    </div>
+                </div>
+        </div>
     `;
       const btnsDelite = document.querySelectorAll('.btnDelite');
       btnsDelite.forEach((btn) => {
@@ -147,8 +128,8 @@ window.addEventListener('DOMContentLoaded', async (e) => {
         <div id="bntsmyedit">
         <input id = '${e.target.dataset.myid}' class='input-edit'  type='text' >
         
-        <button id="btnSave" class="btnSave" data-idsave="${e.target.dataset.myid}">Save</button>
-        <button id="btnCancel" class="btnCancel" data-myidcancel="${e.target.dataset.myid}">Cancel</button>
+          <button id="btnSave" class="btnSave" data-idsave="${e.target.dataset.myid}">Save</button>
+          <button id="btnCancel" class="btnCancel" data-myidcancel="${e.target.dataset.myid}">Cancel</button>
         </div>
         `;
 
@@ -180,17 +161,10 @@ window.addEventListener('DOMContentLoaded', async (e) => {
 });
 
 // se crea la coleccion
-const saveCollection = (descriptionPost) => db.collection('input-timeline').doc().set({
+/* const saveCollection = (descriptionPost) => db.collection('input-timeline').doc().set({
   descriptionPost,
-});
-
-/* // boton de post
-document.addEventListener('click', async (e) => {
-  if (e.target.id === 'publish-btn') {
-
-    // descriptionPost.innerHTML = '';
-  }
 }); */
+
 
 // --------- Evento del botón "Publicar"-----------//
 document.addEventListener('click', async (e) => {
@@ -199,7 +173,7 @@ document.addEventListener('click', async (e) => {
     if (inputPost.value.trim().length > 0) {
 /*       const descriptionPost = document.querySelector('#input-timeline');
       console.log(descriptionPost);*/
-      await saveCollection(inputPost.value); 
+      //await saveCollection(inputPost.value); 
       const date = new Date(Date.now());
       const objPublicacion = {
         photo: localStorage.getItem('photo'),

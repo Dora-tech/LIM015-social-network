@@ -43,11 +43,14 @@ export function viewHome() {
                     </div>
                   </div>
                 </div>
+
+               
+      
         </div>
       </section>  
       <div class="posts-container">
-        <div id="showPost" class="show-post"> </div>
-      </div>
+      <div id="showPost" class="show-post"> </div>
+    </div>
       `;
   const divElem = document.createElement('div');
   divElem.innerHTML = viewHomen;
@@ -77,7 +80,7 @@ window.addEventListener('DOMContentLoaded', async (e) => {
   onGetPost((querySnapshot) => {
     document.querySelector('#showPost').innerHTML = '';
     querySnapshot.forEach((doc) => {
-      console.log(doc.data());
+      //console.log(doc.data());
 
       const info = doc.data();
       info.id = doc.id;
@@ -95,7 +98,7 @@ window.addEventListener('DOMContentLoaded', async (e) => {
         <div class="description-div">
             <h3 data-h3id="${info.id}">${info.description}</h3>
             <div id="showbtnEdits" class="show-btnedits" data-test="${info.id}"> </div>
-              <div id="bnts">
+              <div  id="bnts">
                 <img id= "btnDelete" class="btnDelite" data-id="${info.id}"src='img/close-1.svg'>
                 <img id="btnEdit" class="btn-edit" data-myid="${info.id}" src='img/edit3.svg'>
               </div>
@@ -108,35 +111,55 @@ window.addEventListener('DOMContentLoaded', async (e) => {
                   </div>
                   <div class="likes-counter">
                   
-                     <span></span><a id="p-likes" class="mostrar-likes" style="cursor:pointer;">0 Likes</a>
+                     <span></span><a id="p-likes" class="mostrar-likes" data-spanLike="${info.id}" style="cursor:pointer;">0 Likes</a>
                   </div>
                 </div>
         </div>
       </div>
     `;
+    const mibtnlike= document.querySelector(`[data-mylike="${info.id}"]`)
+    const misLikes = info.likesUser.find(element => element.user === localStorage.getItem('uid'));
+    console.log(misLikes)
+    if (!misLikes)  mibtnlike.src="img/like1.svg";
+    else mibtnlike.src="img/like2.svg";
+    const mispanLike= document.querySelector(`[data-spanLike="${info.id}"]`)
+    mispanLike.innerHTML=`${info.likesUser.length} Likes`
+
     const btnsLike = document.querySelectorAll('.like-post');
     btnsLike.forEach((btn) => {
+
+      //const misLikes = info.likesUser.filter((a) => a.user === localStorage.getItem('uid'));
+
+
       // eslint-disable-next-line no-shadow
-      btn.addEventListener('click', async (e) => {
-         console.log(info.likesUser);
-         console.log(info.name);
-        // console.log(info.likesUser.push(localStorage.getItem('uid')));
-        
-         let mislike=[];
-         mislike=info.likesUser;
-         let nombre= info.name;
-         console.log(nombre);
-         console.log(mislike)
-         let existe=mislike.find(like=>like==localStorage.getItem('uid'))
-         console.log(existe)
+      btn.addEventListener('click', async (e) => {        
+        const post = firebase.firestore().collection('posts').doc(e.target.dataset.mylike);
+        post.get()
+          .then(async (res) => {
+             if (res.exists) {                        
+              const arrayLikes = res.data().likesUser;
+              const userLikes = arrayLikes.filter((a) => a.user === localStorage.getItem('uid'));
+              // si el usuario dio like, ELIMINAMOS DICHO REGISTRO DEL ARRAY
+               if (userLikes.length !== 0) {              
+                post.update({
+                  likesUser: arrayLikes.filter((a) => a.user !== localStorage.getItem('uid')),
+                }); 
+              } else { // no existe like para ese usuario, entonces añadir al array               
+                const newLike = {
+                  userName: localStorage.getItem('name'),
+                  user: localStorage.getItem('uid'),
+                };
+                arrayLikes.push(newLike);
+                // actualizar arrayLikes a la coleccion en firestore
+                  post.update({
+                  likesUser: arrayLikes,
+                }); 
+              } 
+            } 
+          })
 
 
-/*          mislike.push(localStorage.getItem('uid'))
-         const objPublicacion = {
-              likesUser: mislike,
-         };
-         await UpdatePost(objPublicacion,e.target.dataset.mylike);   */
-         if(e.target.dataset.valor==0)
+/*          if(e.target.dataset.valor==0)
             {
 
 
@@ -148,7 +171,7 @@ window.addEventListener('DOMContentLoaded', async (e) => {
           {
             e.target.src="img/like1.svg";
             e.target.dataset.valor=0;
-        }
+        } */
       });
     });
       const btnsDelite = document.querySelectorAll('.btnDelite');
@@ -163,7 +186,7 @@ window.addEventListener('DOMContentLoaded', async (e) => {
         // eslint-disable-next-line no-shadow
         btn.addEventListener('click', async (e) => {
         //  await deletePost(e.target.dataset.id);
-        console.log(e.target.dataset.myid);
+        //console.log(e.target.dataset.myid);
         document.querySelector(`[data-h3id="${e.target.dataset.myid}"]`).style.display = 'none'
         document.querySelector(`[data-test="${e.target.dataset.myid}"]`).innerHTML = `
         <div id="bntsmyedit">

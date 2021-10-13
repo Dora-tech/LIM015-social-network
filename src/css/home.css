@@ -218,6 +218,13 @@ header nav ul li a{
 }
 
 /* ****************contenedor de post(publicacion)************************* */
+.container .posts-container{
+  width: 100%;
+  height: 100%;
+  grid-column: 1;
+  grid-row: 3;
+}
+
 .post-body {
   background-color: #D6D5F5;
   border-radius: 15px;
@@ -293,6 +300,9 @@ header nav ul li a{
   color: grey;
   margin-top: 0px;
 }
+/* .description-div .btn-container {
+  display: flex;
+} */
 
 /* 
 .img-name i {

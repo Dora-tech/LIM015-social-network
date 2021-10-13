@@ -46,7 +46,7 @@ export function viewHome() {
         </div>
       </section>  
       <div class="posts-container">
-      <div id="showPost" class="show-post"> </div>
+        <div id="showPost" class="show-post"> </div>
       </div>
       `;
   const divElem = document.createElement('div');
@@ -69,9 +69,7 @@ const onGetPost = (callback) => db.collection('posts').onSnapshot(callback);
 
 const deletePost = (id) => db.collection('posts').doc(id).delete();
 
-const UpdatePost = (description,id) => db.collection('posts').doc(id).update({
-  description,
-});
+const UpdatePost = (objeto,id) => db.collection('posts').doc(id).update(objeto);
 
 document.querySelector('#showPost');
 window.addEventListener('DOMContentLoaded', async (e) => {
@@ -87,29 +85,72 @@ window.addEventListener('DOMContentLoaded', async (e) => {
       document.querySelector('#showPost').innerHTML += `
     
       <div class='post-body' data-idpost='${info.id}'>
-      <img class="profile-user-img" src=${info.photo}><h3>${info.name}</h3>  <h3>${info.day}</h3>         
-      <div class="description-div">
-        
+        <div class="img-name">
+          <img class="profile-user-img" src=${info.photo}>
+          <span>
+            <h3 class="name">${info.name}</h3>  
+            <h3 class="date">${info.day}</h3>
+          </span>  
+        </div>       
+        <div class="description-div">
             <h3 data-h3id="${info.id}">${info.description}</h3>
             <div id="showbtnEdits" class="show-btnedits" data-test="${info.id}"> </div>
-            <div id="bnts">
-              <img id= "btnDelete" class="btnDelite" data-id="${info.id}"src='img/close-1.svg'>
-              <img id="btnEdit" class="btn-edit" data-myid="${info.id}" src='img/edit3.svg'>
-            </div>
+              <div id="bnts">
+                <img id= "btnDelete" class="btnDelite" data-id="${info.id}"src='img/close-1.svg'>
+                <img id="btnEdit" class="btn-edit" data-myid="${info.id}" src='img/edit3.svg'>
+              </div>
             </div>
 
-            <div class="date-likes">
-                 <div class="likes-container">
-                    <img class="like-post" src="img/like1.svg">
-                  <img class="send-post" src='img/send.svg' >
-                 </div>
+                <div class="date-likes">
+                  <div class="likes-container">
+                    <img class="like-post" data-mylike="${info.id}" data-valor="0" src="img/like1.svg">
+                    <img class="send-post" src='img/send.svg' >
+                  </div>
                   <div class="likes-counter">
                   
                      <span></span><a id="p-likes" class="mostrar-likes" style="cursor:pointer;">0 Likes</a>
-                    </div>
+                  </div>
                 </div>
         </div>
+      </div>
     `;
+    const btnsLike = document.querySelectorAll('.like-post');
+    btnsLike.forEach((btn) => {
+      // eslint-disable-next-line no-shadow
+      btn.addEventListener('click', async (e) => {
+         console.log(info.likesUser);
+         console.log(info.name);
+        // console.log(info.likesUser.push(localStorage.getItem('uid')));
+        
+         let mislike=[];
+         mislike=info.likesUser;
+         let nombre= info.name;
+         console.log(nombre);
+         console.log(mislike)
+         let existe=mislike.find(like=>like==localStorage.getItem('uid'))
+         console.log(existe)
+
+
+/*          mislike.push(localStorage.getItem('uid'))
+         const objPublicacion = {
+              likesUser: mislike,
+         };
+         await UpdatePost(objPublicacion,e.target.dataset.mylike);   */
+         if(e.target.dataset.valor==0)
+            {
+
+
+
+              e.target.src="img/like2.svg";
+              e.target.dataset.valor=1;
+          }
+          else
+          {
+            e.target.src="img/like1.svg";
+            e.target.dataset.valor=0;
+        }
+      });
+    });
       const btnsDelite = document.querySelectorAll('.btnDelite');
       btnsDelite.forEach((btn) => {
         // eslint-disable-next-line no-shadow
@@ -150,7 +191,11 @@ window.addEventListener('DOMContentLoaded', async (e) => {
         btnsSave.forEach((btnsave) => {
           // eslint-disable-next-line no-shadow
           btnsave.addEventListener('click', async (e) => {
-            await UpdatePost(editInput.value,e.target.dataset.idsave);            
+
+            const objPublicacion = {
+              description: editInput.value,
+            };
+            await UpdatePost(objPublicacion,e.target.dataset.idsave);            
           });
         });
         //-----

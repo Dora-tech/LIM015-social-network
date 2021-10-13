@@ -42,15 +42,14 @@ export function viewHome() {
                       <input id="publish-btn" type=button value='Post'>
                     </div>
                   </div>
+                  <div class="posts-container">
+                  <div id="showPost" class="show-post"> </div>
+                </div>
                 </div>
 
-               
       
         </div>
       </section>  
-      <div class="posts-container">
-      <div id="showPost" class="show-post"> </div>
-    </div>
       `;
   const divElem = document.createElement('div');
   divElem.innerHTML = viewHomen;

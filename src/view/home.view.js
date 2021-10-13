@@ -93,25 +93,26 @@ window.addEventListener('DOMContentLoaded', async (e) => {
           <span>
             <h3 class="name">${info.name}</h3>  
             <h3 class="date">${info.day}</h3>
-          </span>  
+          </span> 
+          <div id="showbtnEdits" class="show-btnedits" data-test="${info.id}" data-miid="${info.user}"> 
+          <div  id="bnts">
+            <img id= "btnDelete" class="btnDelite" data-id="${info.id}"src='img/close-1.svg'>
+            <img id="btnEdit" class="btn-edit" data-myid="${info.id}" src='img/edit3.svg'>
+          </div>
+        </div> 
         </div>       
         <div class="description-div">
             <h3 data-h3id="${info.id}">${info.description}</h3>
-            <div id="showbtnEdits" class="show-btnedits" data-test="${info.id}" data-miid="${info.user}"> 
-              <div  id="bnts">
-                <img id= "btnDelete" class="btnDelite" data-id="${info.id}"src='img/close-1.svg'>
-                <img id="btnEdit" class="btn-edit" data-myid="${info.id}" src='img/edit3.svg'>
-              </div>
-            </div>
+           
 
                 <div class="date-likes">
                   <div class="likes-container">
                     <img class="like-post" data-mylike="${info.id}" data-valor="0" src="img/like1.svg">
                     <img class="send-post" src='img/send.svg' >
                   </div>
-                  <div class="likes-counter">
+                  <div class="likesCounter" data-likescounter="${info.id}">
                   
-                     <span></span><a id="p-likes" class="mostrar-likes" data-spanLike="${info.id}" style="cursor:pointer;">0 Likes</a>
+                     <span></span><a id="p-likes" class="mostrar-likes" data-spanlike="${info.id}" style="cursor:pointer;">0 Likes</a>
                   </div>
                 </div>
         </div>
@@ -122,8 +123,28 @@ window.addEventListener('DOMContentLoaded', async (e) => {
     console.log(misLikes)
     if (!misLikes)  mibtnlike.src="img/like1.svg";
     else mibtnlike.src="img/like2.svg";
-    const mispanLike= document.querySelector(`[data-spanLike="${info.id}"]`)
+    const mispanLike= document.querySelector(`[data-spanlike="${info.id}"]`)
     mispanLike.innerHTML=`${info.likesUser.length} Likes`
+
+    const btnsCounterLike = document.querySelectorAll('.mostrar-likes');
+    btnsCounterLike.forEach((btn) => {
+      btn.addEventListener('click', async (e) => { 
+        console.log(e.target.dataset.spanlike)
+        const post = firebase.firestore().collection('posts').doc(e.target.dataset.spanlike);
+        post.get()
+          .then(async (res) => {
+            console.log(res)
+             if (res.exists) {
+              const arrayLikes = res.data().likesUser;
+              let usuarios=arrayLikes.map((element)=>element.userName)
+              console.log(usuarios)
+              alert(usuarios)
+             }})
+       
+        //e.target.innerHTML+=`${info.likesUser}`
+       })
+    })
+
 
     const mishowbtns= document.querySelector(`[data-test="${info.id}"]`)
     console.log(mishowbtns.dataset.miid)
@@ -138,7 +159,9 @@ window.addEventListener('DOMContentLoaded', async (e) => {
 
 
       // eslint-disable-next-line no-shadow
-      btn.addEventListener('click', async (e) => {        
+      btn.addEventListener('click', async (e) => {
+        console.log(e.target.dataset.mylike)    
+        console.log(e.target.dataset)      
         const post = firebase.firestore().collection('posts').doc(e.target.dataset.mylike);
         post.get()
           .then(async (res) => {

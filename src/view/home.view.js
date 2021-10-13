@@ -97,7 +97,7 @@ window.addEventListener('DOMContentLoaded', async (e) => {
         </div>       
         <div class="description-div">
             <h3 data-h3id="${info.id}">${info.description}</h3>
-            <div id="showbtnEdits" class="show-btnedits" data-test="${info.id}"> </div>
+            <div id="showbtnEdits" class="show-btnedits" data-test="${info.id}" data-miid="${info.user}"> 
               <div  id="bnts">
                 <img id= "btnDelete" class="btnDelite" data-id="${info.id}"src='img/close-1.svg'>
                 <img id="btnEdit" class="btn-edit" data-myid="${info.id}" src='img/edit3.svg'>
@@ -124,6 +124,12 @@ window.addEventListener('DOMContentLoaded', async (e) => {
     else mibtnlike.src="img/like2.svg";
     const mispanLike= document.querySelector(`[data-spanLike="${info.id}"]`)
     mispanLike.innerHTML=`${info.likesUser.length} Likes`
+
+    const mishowbtns= document.querySelector(`[data-test="${info.id}"]`)
+    console.log(mishowbtns.dataset.miid)
+    console.log(localStorage.getItem('uid'))
+    if(mishowbtns.dataset.miid!== localStorage.getItem('uid'))
+        mishowbtns.style.display = 'none'
 
     const btnsLike = document.querySelectorAll('.like-post');
     btnsLike.forEach((btn) => {

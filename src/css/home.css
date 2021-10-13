@@ -216,83 +216,220 @@ header nav ul li a{
       width: 50%;
   }
 }
-/* ojo */
 
-/* header {
-  margin-left: auto;
-  margin-right: auto;
-  background-color: #fab33f;
-} */
-
-
-
-/* p {
-  display: flex;
-  margin-right: 30px;
+/* ****************contenedor de post(publicacion)************************* */
+.post-body {
+  background-color: #D6D5F5;
+  border-radius: 15px;
+  padding: 20px;
+  margin-bottom: 30px;
+  box-shadow: 0px 0px 4px 1px rgb(0 0 0 / 10%);
 }
-.logo_home {
+
+.post-body .description-div h3{
+  font-size: 1.3rem;
+}
+  .post-body .description-div {
+    padding: 10px;
+    height: 100%;
+    background-color: #f9f9f9;
+  border-radius: 10px 10px 0px 0px;
+  }
+
+
+/* likes y corazoncito y comentario */
+.date-likes {
+  border-top: 2px solid #ebebeb;
+  padding-top: 17px;
   display: flex;
-  width: 40px;
-  height: 40px;
-} */
-
-/* .post {
+  justify-content: space-between;
+}
+.date-likes .likes-container {
   display: flex;
-  width: 690px;
-  height: 140px;
-  left: 669px;
-  top: 246px;
-  background: #d7d5f8;
-  border-radius: 30px;
-} */
+  align-items: center;
+}
 
-/* #btnpost {
-  width: 142px;
-  height: 44px;
-  left: 1171px;
-  top: 405px;
-  background: #fab340;
-  border-radius: 30px;
-  border:0;
-  outline: none;
-  margin-top: 20px;
-} */
+.date-likes .like-post,
+.date-likes .dislike-post,
+.date-likes .send-post {
+  width: 25px;
+  height: auto;
+  cursor: pointer;
+  margin-right: 18px;
+}
 
-/* #post{
-  border:0;
-  outline: none;
-  text-align: center;
-} */
-
-/* .show-post{
-  border:0;
-  outline: none;
-  text-align: center;
+.date-likes .likes-counter #p-likes {
+  font-weight: 500;
+  font-size: 1.3rem;
+  color: var(--logo-color);
   display: flex;
-  width: 690px;
-  height: 140px;
-  left: 669px;
-  top: 246px;
-  background: #d7d5f8;
-  border-radius: 30px;
+  justify-content: flex-end;
+  width: 100%;
+}
+/* profile */
+.post-body .profile-user-img {
+  border-radius: 100%;
+  width: 48px;
+  margin-right: 15px;
+}
+
+.post-body .img-name {
+  display: flex;
+  align-items: center;
+}
+
+.post-body .img-name span {
+  margin-right: 2%;
+}
+.post-body .img-name .name {
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-bottom: 0px;
+  line-height: 18px;
+}
+
+.post-body .img-name .date {
+  font-size: 1.1rem;
+  color: grey;
+  margin-top: 0px;
+}
+
+/* 
+.img-name i {
+  width: 17%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-left: 35px; 
+}
+.img-name i .edit-img {
+  width: 20px;
+  margin-right: 15px;
+  cursor: pointer;
+}
+.img-name i .close-img {
+  width: 14px;
+  margin-right: 15px;
+  cursor: pointer;
+}
+
+.post-body .description-div p {
+  font-size: 1.3rem;
+}
+
+.post-body .description-div {
+  padding: 10px;
+  height: 100%;
+
+  background-color: #f9f9f9;
+  border-radius: 10px 10px 0px 0px;
+}
+.post-body .save-edit-btn{
+  width: 101px;
+  height: 35px;
+  left: 796px;
+  border-radius: 20px;
+  border: none;
+  font-size: 1.4rem;
+  font-family: 'Poppins', sans-serif;
+  color: white;
+  background: #08CAB3;
+  cursor: pointer;
+  margin-right: 15px;
+}
+.post-body .cancel-edit-btn {
+  width: 101px;
+  height: 35px;
+  border-radius: 20px;
+  border: none;
+  background: var(--settings-color);
+  color: white;
+  font-size: 1.4rem;
+  font-family: 'Poppins', sans-serif;
+  cursor: pointer;
+}
+.description-div .editar{
+  border: none;
+  display: block;
+  width: 90%;
+  height: 30px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  background-color: #f9f9f9;
+  font-family: 'Poppins', sans-serif;
+}
+.description-div .btn-container {
+  display: flex;
+}
+
+.date-likes {
+  border-top: 2px solid #ebebeb;
+  padding-top: 17px;
+  display: flex;
+  justify-content: space-between;
+}
+.date-likes .likes-container {
+  display: flex;
+  align-items: center;
+}
+
+.date-likes .like-post,
+.date-likes .dislike-post,
+.date-likes .send-post {
+  width: 25px;
+  height: auto;
+  cursor: pointer;
+  margin-right: 18px;
+}
+
+.date-likes .likes-counter #p-likes {
+  font-weight: 500;
+  font-size: 1.3rem;
+  color: var(--logo-color);
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.delete-post .delete #question-delete {
+  font-size: 1.3rem;
+  font-weight: 500;
+  margin-bottom: 0px;
+}
+
+.delete-post .delete #message-delete {
+  font-size: 1.3rem;
+  margin-top: 3px;
+}
+
+.delete .delete-btn {
+  width: 101px;
+  height: 35px;
+  left: 796px;
+  border-radius: 20px;
+  border: none;
+  font-size: 1.4rem;
+  font-family: 'Poppins', sans-serif;
+  color: white;
+  background: #08CAB3;
+  cursor: pointer;
+  margin-right: 15px;
+}
+
+.delete .cancel-btn {
+  width: 101px;
+  height: 35px;
+  left: 796px;
+  border-radius: 20px;
+  border: none;
+  font-size: 1.4rem;
+  font-family: 'Poppins', sans-serif;
+  color: white;
+  background: var(--settings-color);
+  cursor: pointer;
 } */
 
-/* .show-post {
-  border: 0;
-  outline: none;
-  text-align: center;
-  display: flex;
-  width: 690px;
-  height: 140px;
-  left: 669px;
-  top: 246px;
-  background: #d7d5f8;
-  border-radius: 30px;
-  align-content: space-around;
-  justify-content: center;
-  flex-wrap: nowrap;
-  flex-direction: column;
-} */
 
 footer {
   text-align: center;

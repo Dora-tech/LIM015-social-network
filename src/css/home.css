@@ -439,3 +439,11 @@ footer {
   font-size: 20px;
   /* padding:10px; */
 }
+
+#showPost{
+  background: cornflowerblue;
+  display: flex;
+  justify-content: space-around;
+  max-width: 40%;
+  max-height: 40%;
+}

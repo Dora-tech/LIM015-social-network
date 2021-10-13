@@ -2,8 +2,8 @@
 import {
   login,
   logInWithEmail,
-} from '../security/security.function.js';
-import { getUserInfo } from '../security/current.js';
+  getUserInfo,
+} from '../firebase/security.function.js';
 
 export function viewLogin() {
   const divElem = document.createElement('article');
@@ -33,55 +33,58 @@ export function viewLogin() {
     </form>
 </article>
 `;
-  /* const divElem = document.createElement('div');
-  divElem.innerHTML = viewLoginv; */
   return divElem;
 }
 
-/* inicio de sesion con email */
-document.addEventListener('click', (e) => {
-  if (e.target.id === 'btnsignin') {
-    const email = document.querySelector('#email').value;
-    const password = document.querySelector('#password').value;
-    const message = document.querySelector('.message');
-    message.innerHTML = '';
-    e.preventDefault();
-    e.stopPropagation();
-    // console.log(btnsignin);
-    if (email === '' || password === '') {
-      message.innerHTML = 'Por favor llene todos los campos';
-    } else {
-      logInWithEmail(email, password).then(() => {
-        /* const hash = '#/home';
-        si el correo esta verificado ingresa a la pagina home */
-        window.location.hash = '#/home';
-        getUserInfo();
-      });
-    }
+function validateAndLogin() {
+  let email = document.querySelector('#email').value;
+  let password = document.querySelector('#password').value;
+  const message = document.querySelector('.message');
+  message.innerHTML = '';
+  if (email === '' || password === '') {
+    message.innerHTML = 'Por favor llene todos los campos';
+  } else {
+    email = email.trim();
+    email = email.toLowerCase();
+    password = password.trim();
+    logInWithEmail(email, password).then(() => {
+      window.location.hash = '#/home';
+      getUserInfo();
+    }).catch((err) => {
+      console.error(err);
+      message.innerHTML = 'verifica tu correo, para poder ingresar';
+    });
   }
-});
-
-/* inicio de sesion con google */
-export function initLogin() {
-  const buttonLogin = document.querySelector('#btnGoogle');
-  buttonLogin.addEventListener('click', (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    // eslint-disable-next-line no-use-before-define
-    logInWithGoogleClick();
-  });
 }
 
 function logInWithGoogleClick() {
   login()
     .then(() => {
-      // getUserInfo();
       window.location.hash = '#/home';
       getUserInfo();
     })
     .catch((error) => {
       /*     Manejar errores aquí. */
-      console.log('error');
+      // console.log('error');
       /*    El correo electrónico de la cuenta del usuario utilizada. */
     });
+}
+
+export function initLogin() {
+  const btnLoginGoogle = document.querySelector('#btnGoogle');
+  const btnLoginEmail = document.querySelector('#btnsignin');
+
+  btnLoginGoogle.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    // eslint-disable-next-line no-use-before-define
+    logInWithGoogleClick();
+  });
+
+  btnLoginEmail.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    // eslint-disable-next-line no-use-before-define
+    validateAndLogin();
+  });
 }

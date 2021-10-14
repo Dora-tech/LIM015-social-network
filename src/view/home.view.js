@@ -46,7 +46,6 @@ export function viewHome() {
                   <div id="showPost" class="show-post"> </div>
                 </div>
                 </div>
-
       
         </div>
       </section>  
@@ -63,8 +62,6 @@ export function initHome() {
     window.location.hash = '#/login';
   });
 }
-
-const db = firebase.firestore();
 // const getPost = () => db.collection('post').get();
 /* const form= document.getElementById('') */
 const onGetPost = (callback) => db.collection('posts').onSnapshot(callback);
@@ -103,7 +100,6 @@ window.addEventListener('DOMContentLoaded', async (e) => {
         <div class="description-div">
             <h3 data-h3id="${info.id}">${info.description}</h3>
            
-
                 <div class="date-likes">
                   <div class="likes-container">
                     <img class="like-post" data-mylike="${info.id}" data-valor="0" src="img/like1.svg">
@@ -189,9 +185,6 @@ window.addEventListener('DOMContentLoaded', async (e) => {
 
 /*          if(e.target.dataset.valor==0)
             {
-
-
-
               e.target.src="img/like2.svg";
               e.target.dataset.valor=1;
           }

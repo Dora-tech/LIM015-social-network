@@ -3,7 +3,7 @@
 import {
   emailVerication,
   registerWithEmail,
-} from '../firebase/security.function.js';
+} from '../security/security.function.js';
 
 export function viewRegister() {
   const divElem = document.createElement('article');
@@ -30,6 +30,9 @@ export function viewRegister() {
     </form>
   </article>
  `;
+
+  /* const divElem = document.createElement('div');
+  divElem.innerHTML = viewRegisterv; */
   return divElem;
 }
 

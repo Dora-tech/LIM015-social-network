@@ -1,11 +1,6 @@
-/* eslint-disable import/no-unresolved */
 /* eslint-disable no-shadow */
 /* eslint-disable no-unused-vars */
-// eslint-disable-next-line import/no-unresolved
-import { logout } from '../firebase/security.function.js';
-import {
-  db, onGetPost, deletePost, saveCollection,
-} from '../firebase/database.functions.js';
+import { logout,publishPost } from '../security/security.function.js';
 
 export function viewHome() {
   const viewHomen = `
@@ -33,9 +28,9 @@ export function viewHome() {
                 <!----------------perfil---------------->
                 <div class = 'profile-container'> 
                   <div class="profile">
-                    <img class="profile-user-img" src=${sessionStorage.getItem('photo')}>
-                    <p id='name-profile'>${sessionStorage.getItem('name')}</p>
-                    <p id='email-profile'>${sessionStorage.getItem('email')}</p>
+                    <img class="profile-user-img" src=${localStorage.getItem('photo')}>
+                    <p id='name-profile'>${localStorage.getItem('name')}</p>
+                    <p id='email-profile'>${localStorage.getItem('email')}</p>
                   </div>
                 </div>
                 <!----------------muro---------------->
@@ -54,24 +49,18 @@ export function viewHome() {
 
       
         </div>
-      </section>
-      <section id="showPosts">
-      <div id="showPost" class="show-post">
-      </section>
-       </div>
+      </section>  
       `;
   const divElem = document.createElement('div');
   divElem.innerHTML = viewHomen;
   return divElem;
 }
 
-function addListenerButtonDelete() {
-  const btnsDelete = document.querySelectorAll('.btnDelete');
-  btnsDelete.forEach((btn) => {
-    // eslint-disable-next-line no-shadow
-    btn.addEventListener('click', async (e) => {
-      await deletePost(e.target.dataset.id);
-    });
+export function initHome() {
+  const btnLogout = document.getElementById('btnExit');
+  btnLogout.addEventListener('click', () => {
+    logout();
+    window.location.hash = '#/login';
   });
 }
 
@@ -86,15 +75,15 @@ const UpdatePost = (objeto,id) => db.collection('posts').doc(id).update(objeto);
 
 document.querySelector('#showPost');
 window.addEventListener('DOMContentLoaded', async (e) => {
-
   // const querySnapshop = await getPost();
   onGetPost((querySnapshot) => {
     document.querySelector('#showPost').innerHTML = '';
     querySnapshot.forEach((doc) => {
       //console.log(doc.data());
+
       const info = doc.data();
       info.id = doc.id;
-      console.log(info);
+      // console.log(info);
       document.querySelector('#showPost').innerHTML += `
     
       <div class='post-body' data-idpost='${info.id}'>
@@ -264,7 +253,6 @@ window.addEventListener('DOMContentLoaded', async (e) => {
         });
       });
     });
-    addListenerButtonDelete();
   });
 });
 
@@ -304,4 +292,3 @@ document.addEventListener('click', async (e) => {
     inputPost.value = '';
   }
 });
-

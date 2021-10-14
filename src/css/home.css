@@ -323,15 +323,12 @@ header nav ul li a{
   margin-right: 15px;
   cursor: pointer;
 }
-
 .post-body .description-div p {
   font-size: 1.3rem;
 }
-
 .post-body .description-div {
   padding: 10px;
   height: 100%;
-
   background-color: #f9f9f9;
   border-radius: 10px 10px 0px 0px;
 }
@@ -373,7 +370,6 @@ header nav ul li a{
 .description-div .btn-container {
   display: flex;
 }
-
 .date-likes {
   border-top: 2px solid #ebebeb;
   padding-top: 17px;
@@ -384,7 +380,6 @@ header nav ul li a{
   display: flex;
   align-items: center;
 }
-
 .date-likes .like-post,
 .date-likes .dislike-post,
 .date-likes .send-post {
@@ -393,7 +388,6 @@ header nav ul li a{
   cursor: pointer;
   margin-right: 18px;
 }
-
 .date-likes .likes-counter #p-likes {
   font-weight: 500;
   font-size: 1.3rem;
@@ -402,18 +396,15 @@ header nav ul li a{
   justify-content: flex-end;
   width: 100%;
 }
-
 .delete-post .delete #question-delete {
   font-size: 1.3rem;
   font-weight: 500;
   margin-bottom: 0px;
 }
-
 .delete-post .delete #message-delete {
   font-size: 1.3rem;
   margin-top: 3px;
 }
-
 .delete .delete-btn {
   width: 101px;
   height: 35px;
@@ -427,7 +418,6 @@ header nav ul li a{
   cursor: pointer;
   margin-right: 15px;
 }
-
 .delete .cancel-btn {
   width: 101px;
   height: 35px;
@@ -446,6 +436,7 @@ footer {
   margin-left: auto;
   margin-right: auto;
   background-color: #fab33f;
+  font-size: 20px;} */
 
 
 

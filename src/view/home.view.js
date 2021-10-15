@@ -1,6 +1,6 @@
 /* eslint-disable no-shadow */
 /* eslint-disable no-unused-vars */
-import { logout,publishPost } from '../security/security.function.js';
+import { logout, publishPost } from '../security/security.function.js';
 
 export function viewHome() {
   const viewHomen = `
@@ -62,13 +62,14 @@ export function initHome() {
     window.location.hash = '#/login';
   });
 }
-// const getPost = () => db.collection('post').get();
-/* const form= document.getElementById('') */
+
+const db = firebase.firestore();
+
 const onGetPost = (callback) => db.collection('posts').onSnapshot(callback);
 
 const deletePost = (id) => db.collection('posts').doc(id).delete();
 
-const UpdatePost = (objeto,id) => db.collection('posts').doc(id).update(objeto);
+const UpdatePost = (objeto, id) => db.collection('posts').doc(id).update(objeto);
 
 document.querySelector('#showPost');
 window.addEventListener('DOMContentLoaded', async (e) => {
@@ -76,7 +77,7 @@ window.addEventListener('DOMContentLoaded', async (e) => {
   onGetPost((querySnapshot) => {
     document.querySelector('#showPost').innerHTML = '';
     querySnapshot.forEach((doc) => {
-      //console.log(doc.data());
+      // console.log(doc.data());
 
       const info = doc.data();
       info.id = doc.id;
@@ -113,77 +114,71 @@ window.addEventListener('DOMContentLoaded', async (e) => {
         </div>
       </div>
     `;
-    const mibtnlike= document.querySelector(`[data-mylike="${info.id}"]`)
-    const misLikes = info.likesUser.find(element => element.user === localStorage.getItem('uid'));
-    console.log(misLikes)
-    if (!misLikes)  mibtnlike.src="img/like1.svg";
-    else mibtnlike.src="img/like2.svg";
-    const mispanLike= document.querySelector(`[data-spanlike="${info.id}"]`)
-    mispanLike.innerHTML=`${info.likesUser.length} Likes`
+      const mibtnlike = document.querySelector(`[data-mylike="${info.id}"]`);
+      const misLikes = info.likesUser.find((element) => element.user === localStorage.getItem('uid'));
+      console.log(misLikes);
+      if (!misLikes) mibtnlike.src = 'img/like1.svg';
+      else mibtnlike.src = 'img/like2.svg';
+      const mispanLike = document.querySelector(`[data-spanlike="${info.id}"]`);
+      mispanLike.innerHTML = `${info.likesUser.length} Likes`;
 
-    const btnsCounterLike = document.querySelectorAll('.mostrar-likes');
-    btnsCounterLike.forEach((btn) => {
-      btn.addEventListener('click', async (e) => { 
-        console.log(e.target.dataset.spanlike)
-        const post = firebase.firestore().collection('posts').doc(e.target.dataset.spanlike);
-        post.get()
-          .then(async (res) => {
-            console.log(res)
-             if (res.exists) {
-              const arrayLikes = res.data().likesUser;
-              let usuarios=arrayLikes.map((element)=>element.userName)
-              console.log(usuarios)
-              alert(usuarios)
-             }})
-       
-        //e.target.innerHTML+=`${info.likesUser}`
-       })
-    })
+      const btnsCounterLike = document.querySelectorAll('.mostrar-likes');
+      btnsCounterLike.forEach((btn) => {
+        btn.addEventListener('click', async (e) => {
+          console.log(e.target.dataset.spanlike);
+          const post = firebase.firestore().collection('posts').doc(e.target.dataset.spanlike);
+          post.get()
+            .then(async (res) => {
+              console.log(res);
+              if (res.exists) {
+                const arrayLikes = res.data().likesUser;
+                const usuarios = arrayLikes.map((element) => element.userName);
+                console.log(usuarios);
+                alert(usuarios);
+              }
+            });
 
+        // e.target.innerHTML+=`${info.likesUser}`
+        });
+      });
 
-    const mishowbtns= document.querySelector(`[data-test="${info.id}"]`)
-    console.log(mishowbtns.dataset.miid)
-    console.log(localStorage.getItem('uid'))
-    if(mishowbtns.dataset.miid!== localStorage.getItem('uid'))
-        mishowbtns.style.display = 'none'
+      const mishowbtns = document.querySelector(`[data-test="${info.id}"]`);
+      console.log(mishowbtns.dataset.miid);
+      console.log(localStorage.getItem('uid'));
+      if (mishowbtns.dataset.miid !== localStorage.getItem('uid')) { mishowbtns.style.display = 'none'; }
 
-    const btnsLike = document.querySelectorAll('.like-post');
-    btnsLike.forEach((btn) => {
-
-      //const misLikes = info.likesUser.filter((a) => a.user === localStorage.getItem('uid'));
-
-
-      // eslint-disable-next-line no-shadow
-      btn.addEventListener('click', async (e) => {
-        console.log(e.target.dataset.mylike)    
-        console.log(e.target.dataset)      
-        const post = firebase.firestore().collection('posts').doc(e.target.dataset.mylike);
-        post.get()
-          .then(async (res) => {
-             if (res.exists) {                        
-              const arrayLikes = res.data().likesUser;
-              const userLikes = arrayLikes.filter((a) => a.user === localStorage.getItem('uid'));
-              // si el usuario dio like, ELIMINAMOS DICHO REGISTRO DEL ARRAY
-               if (userLikes.length !== 0) {              
-                post.update({
-                  likesUser: arrayLikes.filter((a) => a.user !== localStorage.getItem('uid')),
-                }); 
-              } else { // no existe like para ese usuario, entonces añadir al array               
-                const newLike = {
-                  userName: localStorage.getItem('name'),
-                  user: localStorage.getItem('uid'),
-                };
-                arrayLikes.push(newLike);
-                // actualizar arrayLikes a la coleccion en firestore
+      const btnsLike = document.querySelectorAll('.like-post');
+      btnsLike.forEach((btn) => {
+        // eslint-disable-next-line no-shadow
+        btn.addEventListener('click', async (e) => {
+          console.log(e.target.dataset.mylike);
+          console.log(e.target.dataset);
+          const post = firebase.firestore().collection('posts').doc(e.target.dataset.mylike);
+          post.get()
+            .then(async (res) => {
+              if (res.exists) {
+                const arrayLikes = res.data().likesUser;
+                const userLikes = arrayLikes.filter((a) => a.user === localStorage.getItem('uid'));
+                // si el usuario dio like, ELIMINAMOS DICHO REGISTRO DEL ARRAY
+                if (userLikes.length !== 0) {
                   post.update({
-                  likesUser: arrayLikes,
-                }); 
-              } 
-            } 
-          })
+                    likesUser: arrayLikes.filter((a) => a.user !== localStorage.getItem('uid')),
+                  });
+                } else { // no existe like para ese usuario, entonces añadir al array
+                  const newLike = {
+                    userName: localStorage.getItem('name'),
+                    user: localStorage.getItem('uid'),
+                  };
+                  arrayLikes.push(newLike);
+                  // actualizar arrayLikes a la coleccion en firestore
+                  post.update({
+                    likesUser: arrayLikes,
+                  });
+                }
+              }
+            });
 
-
-/*          if(e.target.dataset.valor==0)
+          /*          if(e.target.dataset.valor==0)
             {
               e.target.src="img/like2.svg";
               e.target.dataset.valor=1;
@@ -193,8 +188,8 @@ window.addEventListener('DOMContentLoaded', async (e) => {
             e.target.src="img/like1.svg";
             e.target.dataset.valor=0;
         } */
+        });
       });
-    });
       const btnsDelite = document.querySelectorAll('.btnDelite');
       btnsDelite.forEach((btn) => {
         // eslint-disable-next-line no-shadow
@@ -207,9 +202,9 @@ window.addEventListener('DOMContentLoaded', async (e) => {
         // eslint-disable-next-line no-shadow
         btn.addEventListener('click', async (e) => {
         //  await deletePost(e.target.dataset.id);
-        //console.log(e.target.dataset.myid);
-        document.querySelector(`[data-h3id="${e.target.dataset.myid}"]`).style.display = 'none'
-        document.querySelector(`[data-test="${e.target.dataset.myid}"]`).innerHTML = `
+        // console.log(e.target.dataset.myid);
+          document.querySelector(`[data-h3id="${e.target.dataset.myid}"]`).style.display = 'none';
+          document.querySelector(`[data-test="${e.target.dataset.myid}"]`).innerHTML = `
         <div id="bntsmyedit">
         <input id = '${e.target.dataset.myid}' class='input-edit'  type='text' >
         
@@ -218,30 +213,28 @@ window.addEventListener('DOMContentLoaded', async (e) => {
         </div>
         `;
 
-        const editInput = document.getElementById(e.target.dataset.myid);
-        const mih3=document.querySelector(`[data-h3id="${e.target.dataset.myid}"]`);
-        editInput.value=mih3.innerHTML;
-        editInput.focus();
-        const btnsCancel = document.querySelectorAll('.btnCancel');
-        btnsCancel.forEach((btncancel) => {
+          const editInput = document.getElementById(e.target.dataset.myid);
+          const mih3 = document.querySelector(`[data-h3id="${e.target.dataset.myid}"]`);
+          editInput.value = mih3.innerHTML;
+          editInput.focus();
+          const btnsCancel = document.querySelectorAll('.btnCancel');
+          btnsCancel.forEach((btncancel) => {
           // eslint-disable-next-line no-shadow
-          btncancel.addEventListener('click', async (e) => {
-            document.querySelector(`[data-h3id="${e.target.dataset.myidcancel}"]`).style.display = 'block'
-           // document.querySelector(`[data-idInput="${e.target.dataset.myidcancel}"]`).style.display = 'none'
-            document.querySelector(`[data-test="${e.target.dataset.myidcancel}"]`).innerHTML = "";
+            btncancel.addEventListener('click', async (e) => {
+              document.querySelector(`[data-h3id="${e.target.dataset.myidcancel}"]`).style.display = 'block';
+              document.querySelector(`[data-test="${e.target.dataset.myidcancel}"]`).innerHTML = '';
+            });
           });
-        });
-        const btnsSave = document.querySelectorAll('.btnSave');
-        btnsSave.forEach((btnsave) => {
+          const btnsSave = document.querySelectorAll('.btnSave');
+          btnsSave.forEach((btnsave) => {
           // eslint-disable-next-line no-shadow
-          btnsave.addEventListener('click', async (e) => {
-
-            const objPublicacion = {
-              description: editInput.value,
-            };
-            await UpdatePost(objPublicacion,e.target.dataset.idsave);            
+            btnsave.addEventListener('click', async (e) => {
+              const objPublicacion = {
+                description: editInput.value,
+              };
+              await UpdatePost(objPublicacion, e.target.dataset.idsave);
+            });
           });
-        });
         //-----
         });
       });
@@ -254,15 +247,14 @@ window.addEventListener('DOMContentLoaded', async (e) => {
   descriptionPost,
 }); */
 
-
 // --------- Evento del botón "Publicar"-----------//
 document.addEventListener('click', async (e) => {
   if (e.target.id === 'publish-btn') {
     const inputPost = document.querySelector('.input-timeline');
     if (inputPost.value.trim().length > 0) {
-/*       const descriptionPost = document.querySelector('#input-timeline');
-      console.log(descriptionPost);*/
-      //await saveCollection(inputPost.value); 
+      /*       const descriptionPost = document.querySelector('#input-timeline');
+      console.log(descriptionPost); */
+      // await saveCollection(inputPost.value);
       const date = new Date(Date.now());
       const objPublicacion = {
         photo: localStorage.getItem('photo'),

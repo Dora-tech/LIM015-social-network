@@ -1,4 +1,5 @@
 const firebaseConfig = {
+
   apiKey: "AIzaSyCxWeb-KY_lHNleZxllR2pYgLsNTJOdC_4",
   authDomain: "petlovers2021-7c010.firebaseapp.com",
   projectId: "petlovers2021-7c010",

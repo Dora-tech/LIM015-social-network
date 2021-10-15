@@ -32,7 +32,6 @@ export function viewLogin() {
       <button id='registro' class='btn-register' ><a href='#/register'class='a-login-signup'>register</a></button>
     </form>
 </article>
-
 `;
   /* const divElem = document.createElement('div');
   divElem.innerHTML = viewLoginv; */

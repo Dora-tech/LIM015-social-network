@@ -52,14 +52,6 @@ Reflexiona y luego marca los objetivos que has llegado a entender y aplicar en t
 
 ### Web APIs
 
-- [ ] **Uso de selectores del DOM**
-
-
-- [ ] **Manejo de eventos del DOM (listeners, propagación, delegación)**
-
-- [ ] **Manipulación dinámica del DOM**
-
-- [ ] **Ruteado (History API, evento hashchange, window.location)**
 
 
 ### JavaScript

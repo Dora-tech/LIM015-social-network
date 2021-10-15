@@ -64,8 +64,7 @@ export function initHome() {
 }
 
 const db = firebase.firestore();
-// const getPost = () => db.collection('post').get();
-/* const form= document.getElementById('') */
+
 const onGetPost = (callback) => db.collection('posts').onSnapshot(callback);
 
 const deletePost = (id) => db.collection('posts').doc(id).delete();
@@ -151,9 +150,6 @@ window.addEventListener('DOMContentLoaded', async (e) => {
 
     const btnsLike = document.querySelectorAll('.like-post');
     btnsLike.forEach((btn) => {
-
-      //const misLikes = info.likesUser.filter((a) => a.user === localStorage.getItem('uid'));
-
 
       // eslint-disable-next-line no-shadow
       btn.addEventListener('click', async (e) => {

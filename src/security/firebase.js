@@ -1,10 +1,10 @@
 const firebaseConfig = {
-  apiKey: 'AIzaSyDSIXttNQ7-yVqvCs4e8He6Pot76PrrQUE',
-  authDomain: 'pet-lovers-ea91e.firebaseapp.com',
-  projectId: 'pet-lovers-ea91e',
-  storageBucket: 'pet-lovers-ea91e.appspot.com',
-  messagingSenderId: '826964928266',
-  appId: '1:826964928266:web:c7ec9072b7d58fb99ebcf3',
-  measurementId: 'G-RBPQWZFPB1',
+  apiKey: 'AIzaSyCxWeb-KY_lHNleZxllR2pYgLsNTJOdC_4',
+  authDomain: 'petlovers2021-7c010.firebaseapp.com',
+  projectId: 'petlovers2021-7c010',
+  storageBucket: 'petlovers2021-7c010.appspot.com',
+  messagingSenderId: '378896924731',
+  appId: '1:378896924731:web:c9c031648555d6aa309c1e',
+  measurementId: 'G-YBTKJWLJYM',
 };
 firebase.initializeApp(firebaseConfig);

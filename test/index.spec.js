@@ -1,5 +1,5 @@
 import {
-  registerWithEmail, logInWithEmail, logInWithGoogle,
+  registerWithEmail, logInWithEmail,
 } from '../src/security/security.function.js';
 
 const firebasemock = require('firebase-mock');
@@ -28,11 +28,11 @@ describe('iniciar sesion correo, contraseña', () => {
     }));
 });
 
-describe('logInWithGoogle', () => {
+/* describe('logInWithGoogle', () => {
   it('deberia ser una funcion', () => { expect(typeof logInWithGoogle).toBe('function'); });
 });
 it('debería iniciar sesión con Google', () => {
   logInWithGoogle().then((google) => {
     expect(google.providerData[0].providerId).toBe('google.com');
   });
-});
+}); */

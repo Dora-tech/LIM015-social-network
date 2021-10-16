@@ -46,9 +46,8 @@ export function viewHome() {
                   <div id="showPost" class="show-post"> </div>
                 </div>
                 </div>
-      
         </div>
-      </section>  
+      </section>
       `;
   const divElem = document.createElement('div');
   divElem.innerHTML = viewHomen;
@@ -72,6 +71,9 @@ const deletePost = (id) => db.collection('posts').doc(id).delete();
 const UpdatePost = (objeto, id) => db.collection('posts').doc(id).update(objeto);
 
 document.querySelector('#showPost');
+function events() {
+
+}
 window.addEventListener('DOMContentLoaded', async (e) => {
   // const querySnapshop = await getPost();
   onGetPost((querySnapshot) => {

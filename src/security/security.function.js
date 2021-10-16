@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
-/* eslint-disable max-len */
 export const emailVerication = () => firebase.auth().currentUser.sendEmailVerification();
 
+// eslint-disable-next-line max-len
 export const registerWithEmail = (email, password) => firebase.auth().createUserWithEmailAndPassword(email, password);
 
 export async function login() {
@@ -35,6 +35,7 @@ export const publishPost = (objPublicacion) => new Promise((resolver, rechazar) 
     })
     .catch((error) => {
       console.log(error);
+      // eslint-disable-next-line prefer-promise-reject-errors
       rechazar('documeto no registrado');
     });
 });
